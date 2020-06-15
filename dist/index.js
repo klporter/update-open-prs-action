@@ -754,7 +754,8 @@ async function getOpenPullRequests() {
         repo: repo,
         state: 'open'
     });
-    console.log(`Found open PRs: ${JSON.stringify(openPRs)}`);
+    const openPullRequestTitles = openPRs.map(openPR => openPR.title);
+    console.log(`Found open PRs: ${JSON.stringify(openPullRequestTitles)}`);
     return openPRs;
 }
 
