@@ -922,11 +922,10 @@ try {
     console.log(`Updating open PRs with new milestone: ${newMilestone.title}`)
 
     pull.getOpenPullRequests().then(openPRs => {
-        console.log(JSON.stringify(openPRs));
-        // openPRs.forEach(openPR => {
-        //     issue.updateIssueWithMilestone(openPR.number, newMilestone.number)
-        //         .then(() => console.log(`Finished adding milestone (${newMilestone.title}) to PR: ${openPR.title}`))
-        // })
+        openPRs.forEach(openPR => {
+            issue.updateIssueWithMilestone(openPR.number, newMilestone.number)
+                .then(() => console.log(`Finished adding milestone (${newMilestone.title}) to PR: ${openPR.title}`))
+        })
     });
 } catch (error) {
     core.setFailed(error.message);
@@ -3461,12 +3460,14 @@ const octokit = github.getOctokit(githubContext.token)
 async function updateIssueWithMilestone(issueNumber, milestoneNumber) {
     const owner = githubContext.repository.split('/')[0]
     const repo = githubContext.repository.split('/')[1]
-    return await octokit.issues.update({
+    const {data: openPRs} = await octokit.issues.update({
         owner: owner,
         repo: repo,
         issue_number: issueNumber,
         milestone: milestoneNumber
     });
+    console.log(`Found open PRs: ${JSON.stringify(openPRs)}`);
+    return openPRs;
 }
 
 module.exports = {updateIssueWithMilestone}
