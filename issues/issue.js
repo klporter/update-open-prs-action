@@ -10,14 +10,12 @@ const octokit = github.getOctokit(githubContext.token)
 async function updateIssueWithMilestone(issueNumber, milestoneNumber) {
     const owner = githubContext.repository.split('/')[0]
     const repo = githubContext.repository.split('/')[1]
-    const {data: openPRs} = await octokit.issues.update({
+    return await octokit.issues.update({
         owner: owner,
         repo: repo,
         issue_number: issueNumber,
         milestone: milestoneNumber
     });
-    console.log(`Found open PRs: ${JSON.stringify(openPRs)}`);
-    return openPRs;
 }
 
 module.exports = {updateIssueWithMilestone}
