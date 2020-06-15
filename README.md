@@ -15,7 +15,7 @@ name: Update Open Pull Requests
 
 on:
   milestone:
-    types: [opened]
+    types: [created]
 
 jobs:
   update_prs:
